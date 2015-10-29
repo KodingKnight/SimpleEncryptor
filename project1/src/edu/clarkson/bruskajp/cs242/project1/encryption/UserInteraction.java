@@ -126,13 +126,27 @@ public class UserInteraction {
 	private void fileEncrypt(Scanner inputScanner){
 		FileEncryptor fileEncryptor = new FileEncryptor();
 		File inputFile;
+		File outputFile;
+		int counter = 0;
 		
 		do{
-			System.out.print("File Name: ");
+			if (counter > 4){
+				System.out.println("File not found. Try again later.");
+				System.exit(1);
+			}else if(counter != 0){
+				System.out.println("Invalid Input File Name");
+			}
+			System.out.print("Input File Name: ");
 			inputFile = new File(inputScanner.nextLine());
+			++counter;
 		} while (!inputFile.exists());
 		
+		System.out.print("Output File Name: ");
+		outputFile = new File(inputScanner.nextLine());
+		
+		
 		fileEncryptor.setInputFile(inputFile);
+		fileEncryptor.setOutputFile(outputFile);
 		fileEncryptor.textEncrypt();
 		System.out.print("Encryption Key: ");
 		System.out.println(fileEncryptor.getEncryptionKey());
@@ -140,13 +154,26 @@ public class UserInteraction {
 	
 	private void fileDecrypt(Scanner inputScanner){
 		FileEncryptor fileEncryptor = new FileEncryptor();
+		File inputFile;
 		File outputFile;
+		int counter = 0;
 		
 		do{
-			System.out.print("File Name: ");
-			outputFile = new File(inputScanner.nextLine());
-		} while (!outputFile.exists());
+			if (counter > 4){
+				System.out.println("File not found. Try again later.");
+				System.exit(1);
+			}else if(counter != 0){
+				System.out.println("Invalid Input File Name");
+			}
+			System.out.print("Input File Name: ");
+			inputFile = new File(inputScanner.nextLine());
+			++counter;
+		} while (!inputFile.exists());
 		
+		System.out.print("Output File Name: ");
+		outputFile = new File(inputScanner.nextLine());
+		
+		fileEncryptor.setInputFile(inputFile);
 		fileEncryptor.setOutputFile(outputFile);
 		System.out.print("Encryption Key: ");
 		fileEncryptor.setEncryptionKey(inputScanner.nextByte());
@@ -161,16 +188,18 @@ public class UserInteraction {
 		Scanner inputScanner = new Scanner(System.in);
 		File inputFile = new File(inputFileName);
 		File outputFile = new File(outputFileName);
+		int counter = 0;
 		
 		while (!inputFile.exists()){
-			System.out.println("Invalid File Name");
-			System.out.print("File Name: ");
-			inputFile = new File(inputScanner.nextLine());
-		} 
-		while (!outputFile.exists()){
-			System.out.println("Invalid File Name");
-			System.out.print("File Name: ");
-			outputFile = new File(inputScanner.nextLine());
+			if (counter > 4){
+				System.out.println("File not found. Try again later.");
+				System.exit(1);
+			}else {
+				System.out.println("Invalid Input File Name");
+				System.out.print("Input File Name: ");
+				inputFile = new File(inputScanner.nextLine());
+				++counter;
+			}
 		} 
 		inputScanner.close();
 		
@@ -186,16 +215,18 @@ public class UserInteraction {
 		Scanner inputScanner = new Scanner(System.in);
 		File inputFile = new File(inputFileName);
 		File outputFile = new File(outputFileName);
+		int counter = 0;
 		
 		while (!inputFile.exists()){
-			System.out.println("Invalid File Name");
-			System.out.print("File Name: ");
-			inputFile = new File(inputScanner.nextLine());
-		} 
-		while (!outputFile.exists()){
-			System.out.println("Invalid File Name");
-			System.out.print("File Name: ");
-			outputFile = new File(inputScanner.nextLine());
+			if (counter > 4){
+				System.out.println("File not found. Try again later.");
+				System.exit(1);
+			}else {
+				System.out.println("Invalid Input File Name");
+				System.out.print("Input File Name: ");
+				inputFile = new File(inputScanner.nextLine());
+				++counter;
+			}
 		} 
 		inputScanner.close();
 		

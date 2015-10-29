@@ -31,14 +31,18 @@ public class FileEncryptor extends Encryptor{
 		try {
 			bufferedReader = new BufferedReader(new FileReader(inputFile));
 			bufferedWriter = new BufferedWriter(new FileWriter(outputFile));
-			normalCharacter = readCharacterFromFile(bufferedReader);
+			byte partiallyEncryptedCharacter;
+			int tempInt;
 			
-			byte partiallyEncryptedCharacter = (byte) normalCharacter;
-			partiallyEncryptedCharacter = (byte) ((partiallyEncryptedCharacter + 4) ^ this.encryptionKey);
-			
-			this.encryptedCharacter = (char) (partiallyEncryptedCharacter);
-			
-			writeCharacterToFile(bufferedWriter, this.encryptedCharacter);
+			while((tempInt = readCharacterFromFile(bufferedReader)) != -1){
+				normalCharacter = (char) tempInt;
+				partiallyEncryptedCharacter = (byte) normalCharacter;
+				partiallyEncryptedCharacter = (byte) ((partiallyEncryptedCharacter + 4) ^ this.encryptionKey);
+				
+				this.encryptedCharacter = (char) (partiallyEncryptedCharacter);
+				
+				writeCharacterToFile(bufferedWriter, this.encryptedCharacter);
+			}
 			
 			bufferedReader.close();
 			bufferedWriter.close();
@@ -60,12 +64,18 @@ public class FileEncryptor extends Encryptor{
 		try {
 			bufferedReader = new BufferedReader(new FileReader(inputFile));
 			bufferedWriter = new BufferedWriter(new FileWriter(outputFile));
-			encryptedCharacter = readCharacterFromFile(bufferedReader);
+			int tempInt;
 			
-			byte partiallyEncryptedCharacter = (byte) encryptedCharacter;
-			partiallyEncryptedCharacter = (byte) ((partiallyEncryptedCharacter ^ this.encryptionKey) - 4);
-			
-			this.normalCharacter = (char) (partiallyEncryptedCharacter);
+			while((tempInt = readCharacterFromFile(bufferedReader)) != -1){
+				this.encryptedCharacter = (char) tempInt;
+				
+				byte partiallyEncryptedCharacter = (byte) encryptedCharacter;
+				partiallyEncryptedCharacter = (byte) ((partiallyEncryptedCharacter ^ this.encryptionKey) - 4);
+				
+				this.normalCharacter = (char) (partiallyEncryptedCharacter);
+				
+				writeCharacterToFile(bufferedWriter, this.normalCharacter);
+			}
 			
 			bufferedReader.close();
 			bufferedWriter.close();
@@ -79,28 +89,25 @@ public class FileEncryptor extends Encryptor{
 	
 	/** Imports text from file and stores it in the program */
 	
-	public Character readCharacterFromFile(BufferedReader bufferedReader){	
+	public int readCharacterFromFile(BufferedReader bufferedReader){	
 		int integerCharacter = 0;
 			
 		try {
-			if((integerCharacter = bufferedReader.read()) != -1){
-				return (char) integerCharacter;
-			}
+				integerCharacter = bufferedReader.read();
+				return integerCharacter;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null; 
+		return -1;
 	}
 	
 	private void writeCharacterToFile(BufferedWriter bufferedWriter, char characterToWrite){
 		try {
 			bufferedWriter.write((int) characterToWrite);
-			bufferedWriter.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} 
 	}
