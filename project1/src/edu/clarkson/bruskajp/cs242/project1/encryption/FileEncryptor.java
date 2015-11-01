@@ -87,7 +87,7 @@ public class FileEncryptor extends Encryptor{
 		
 	}
 	
-	/** Imports text from file and stores it in the program */
+	/** Reads a character from file */
 	
 	public int readCharacterFromFile(BufferedReader bufferedReader){	
 		int integerCharacter = 0;
@@ -100,6 +100,8 @@ public class FileEncryptor extends Encryptor{
 		}
 		return -1;
 	}
+	
+	/** Writes a character to a file */
 	
 	private void writeCharacterToFile(BufferedWriter bufferedWriter, char characterToWrite){
 		try {

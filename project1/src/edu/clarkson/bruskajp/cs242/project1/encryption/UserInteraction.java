@@ -6,8 +6,18 @@ import java.util.Scanner;
 public class UserInteraction {
 	
 	/** Main Method
-	 * 	- runs the code to begin the program's user interface
-	 *	- takes in command line input to run the encryption or decryption 
+	 * 	Runs the code to begin the program's user interface
+	 *	Takes in command line input to run the encryption, decryption, file encryption, or file decryption 
+	 *	
+	 *	To use the SimpleEncryptor the triggering argument is "-e" and the second argument is the string to be encrypted
+	 *		-e "Input String"
+	 *	To use the SimpleDecryptor the triggering argument is "-d", the second argument is the string to be decrypted, and the third argument is the encryption key
+	 *		-d "Input String" #
+	 *	To use the FileEncryptor the triggering argument is "-fe", the second argument is the file to encrypt, and the third argument is the file to output to
+	 *		-fe InputFile.txt OutputFile.txt 
+	 *	To use the FileDecryptor the triggering argument is "-fd", the second argument is the file to decrypt, and the third argument is the file to output to
+	 * 		-fd InputFile.txt OutputFile,txt #
+	 * 	If an incorrect number of arguments are presented then it defaults to the normal menu version
 	 * */ 
 	
 	public void userInteractionMain(String[] args){
@@ -17,17 +27,38 @@ public class UserInteraction {
 			menu(inputScanner);
 		}else{
 			switch(args[0]){
-				case "-e":	
-					encryptCommandLine(args[1]);
-					break;
+				case "-e":
+					if(args.length == 2){
+						encryptCommandLine(args[1]);
+						break;
+					}else{
+						menu(inputScanner);
+						break;
+					}
 				case "-d":
-					decryptCommandLine(args[1], args[2]);
-					break;
+					if(args.length == 3){
+						decryptCommandLine(args[1], args[2]);
+						break;
+					}else{
+						menu(inputScanner);
+						break;
+					}
 				case "-fe":	
-					fileEncryptCommandLine(args[1], args[2]);
-					break;
+					if(args.length == 3){
+						fileEncryptCommandLine(args[1], args[2]);
+						break;
+					}else{
+						menu(inputScanner);
+						break;
+					}
 				case "-fd": 
-					fileDecryptCommandLine(args[1], args[2], args[3]);
+					if(args.length == 4){
+						fileDecryptCommandLine(args[1], args[2], args[3]);
+						break;
+					}else{
+						menu(inputScanner);
+						break;
+					}
 				default: 	
 					menu(inputScanner);
 			}	
@@ -123,6 +154,7 @@ public class UserInteraction {
 		System.out.println(simpleEncryptor.getPlainText());
 	}
 	
+	/** User interface for encryption of a file in the program */
 	private void fileEncrypt(Scanner inputScanner){
 		FileEncryptor fileEncryptor = new FileEncryptor();
 		File inputFile;
@@ -152,6 +184,7 @@ public class UserInteraction {
 		System.out.println(fileEncryptor.getEncryptionKey());
 	}
 	
+	/** User interface for decryption of a file in the program */
 	private void fileDecrypt(Scanner inputScanner){
 		FileEncryptor fileEncryptor = new FileEncryptor();
 		File inputFile;
@@ -181,9 +214,8 @@ public class UserInteraction {
 		System.out.print("Done");
 	}
 	
-	
+	/** User interface for encryption of a file in the command line */
 	private void fileEncryptCommandLine(String inputFileName, String outputFileName){
-		
 		FileEncryptor fileEncryptor = new FileEncryptor();
 		Scanner inputScanner = new Scanner(System.in);
 		File inputFile = new File(inputFileName);
@@ -210,6 +242,7 @@ public class UserInteraction {
 		System.out.println(fileEncryptor.getEncryptionKey());
 	}
 	
+	/** User interface for decryption of a file in the command line */
 	private void fileDecryptCommandLine(String inputFileName, String outputFileName, String encryptionKey){
 		FileEncryptor fileEncryptor = new FileEncryptor();
 		Scanner inputScanner = new Scanner(System.in);
